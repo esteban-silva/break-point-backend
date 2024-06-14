@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { UserType, UserPartialType } from "../schemes/userScheme";
 import UserModel from "../models/userModel";
+import IApiResponse from "../interfaces/IApiResponse";
+import { Model } from "sequelize";
 
 export class UserController {
   userModel: any;
@@ -9,58 +11,47 @@ export class UserController {
   }
 
   getAll = async (req: Request, res: Response) => {
-    const users = await this.userModel.getAll();
-    return res.status(200).json({ data: users });
+    const response: IApiResponse = await this.userModel.getAll();
+    return res.status(response.status).json(response);
   };
 
   getById = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const user = await this.userModel.getById(id);
-    if (user) {
-      return res.status(200).json({ data: user });
-    } else {
-      return res.status(200).json({ message: "User not found" });
-    }
+    const response: IApiResponse = await this.userModel.getById(id);
+    return res.status(response.status).json(response);
   };
 
-  createUser = async (req: Request, res: Response) => {
+  createCommonUser = async (req: Request, res: Response) => {
     const user: UserType = req.body;
-    const response = await this.userModel.createUser(user);
-    return res.status(200).json(response);
+    const response: IApiResponse = await this.userModel.createCommonUser(user);
+    return res.status(response.status).json(response);
+  };
+
+  setUserTeacher = async (req: Request, res: Response) => {
+    const userId = req.params.id;
+    const response: IApiResponse = await this.userModel.setUserTeacher(userId);
+    return res.status(response.status).json(response);
   };
 
   deleteUser = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const isUserDeleted = await this.userModel.deleteUser(id);
-    if (isUserDeleted) {
-      return res.status(200).json({ message: "User deleted successfuly" });
-    } else {
-      return res.status(400).json({ message: "User not found" });
-    }
+    const response: IApiResponse = await this.userModel.deleteUser(id);
+    return res.status(response.status).json(response);
   };
 
   updateUser = async (req: Request, res: Response) => {
     const { id } = req.params;
     const userToUpdate: UserPartialType = req.body;
-    if (Object.keys(userToUpdate).length > 0) {
-      const updatedUser = await this.userModel.updateUser(id, userToUpdate);
-      if (updatedUser) {
-        return res.status(200).json({ message: "User updated successfuly" });
-      } else {
-        return res.status(400).json({ message: "User not found" });
-      }
-    } else {
-      return res
-        .status(400)
-        .json({ message: "Must provide the User information to change" });
-    }
+    const response: IApiResponse = await this.userModel.updateUser(
+      id,
+      userToUpdate
+    );
+    return res.status(response.status).json(response);
   };
 
   login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
-    const accessToken = await this.userModel.login(email, password);
-    if (!accessToken)
-      return res.status(401).json({ message: "Invalid credentials" });
-    return res.status(200).json({ accessToken: accessToken });
+    const response = await this.userModel.login(email, password);
+    return res.status(response.status).json(response);
   };
 }

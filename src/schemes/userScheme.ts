@@ -10,11 +10,11 @@ export interface IUser {
   password: string;
   ci: string;
   phone: string;
-  rolId: string;
+  rolId: number;
   isTeacher: boolean;
 }
 
-export type UserType = Optional<IUser, "phone" | "isTeacher">;
+export type UserType = Optional<IUser, "phone" | "isTeacher" | "rolId" | "id">;
 
 export type UserPartialType = Partial<IUser>;
 

@@ -1,1 +1,3 @@
-`Backend of the Tenis Web BreakPoint made for classes and court reservations`
+## Backend of a Tenis website for court reservation, classes and more
+
+`Tech: NodeJS + Express + Typescript + Sequelize + PostgreSQL`

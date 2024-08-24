@@ -6,9 +6,9 @@
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "build": "tsc -p tsconfig.json",
-    "dev": "ts-node-dev --respawn --pretty --transpile-only src/server.ts"
+    "start": "SET NODE_ENV=development && node server.js",
+    "build": "SET NODE_ENV=production && tsc -p tsconfig.json",
+    "dev": "SET NODE_ENV=development && ts-node-dev --respawn --pretty --transpile-only src/server.ts"
   },
   "repository": {
     "type": "git",

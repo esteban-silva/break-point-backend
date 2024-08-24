@@ -10,53 +10,53 @@ import dayjs from "dayjs";
 
 export default class BookingModel {
   // ---------------- Utils functions private --------------------------------------------
-  private static getRecomendedBookingCourts = async (
-    date: Date
-  ): Promise<ICourt[] | undefined> => {
-    try {
-      const fromDate = date;
-      const toDate = date;
-      fromDate.setHours(date.getHours() - 5, 0, 0, 0);
-      toDate.setHours(date.getHours() + 5, 0, 0, 0);
+  // private static getRecomendedBookingCourts = async (
+  //   date: Date
+  // ): Promise<ICourt[] | undefined> => {
+  //   try {
+  //     const fromDate = date;
+  //     const toDate = date;
+  //     fromDate.setHours(date.getHours() - 5, 0, 0, 0);
+  //     toDate.setHours(date.getHours() + 5, 0, 0, 0);
 
-      const allCourts = await Courts.findAll({});
+  //     const allCourts = await Courts.findAll({});
 
-      const courtClassesOnDate = await ScheduleClasses.findAll({
-        attributes: ["courtId", "startHour"],
-        where: {
-          [Op.and]: {
-            dayOfWeek: date.getDay(),
-            startHour: {
-              [Op.between]: [
-                `${fromDate.getUTCHours()}:00`,
-                `${toDate.getUTCHours()}:00`,
-              ],
-            },
-          },
-        },
-      });
+  //     const courtClassesOnDate = await ScheduleClasses.findAll({
+  //       attributes: ["courtId", "startHour"],
+  //       where: {
+  //         [Op.and]: {
+  //           dayOfWeek: date.getDay(),
+  //           startHour: {
+  //             [Op.between]: [
+  //               `${fromDate.getUTCHours()}:00`,
+  //               `${toDate.getUTCHours()}:00`,
+  //             ],
+  //           },
+  //         },
+  //       },
+  //     });
 
-      const courtBookingsOnDate = await Bookings.findAll({
-        attributes: ["courtId", "date"],
-        where: {
-          date: {
-            [Op.between]: [fromDate, toDate],
-          },
-        },
-      });
+  //     const courtBookingsOnDate = await Bookings.findAll({
+  //       attributes: ["courtId", "date"],
+  //       where: {
+  //         date: {
+  //           [Op.between]: [fromDate, toDate],
+  //         },
+  //       },
+  //     });
 
-      return allCourts.filter((court) => {
-        return !courtBookingsOnDate.some((boooking) => {
-          return (
-            boooking.dataValues.courtId === court.dataValues.id &&
-            boooking.dataValues.date === date
-          );
-        });
-      });
-    } catch (error) {
-      return undefined;
-    }
-  };
+  //     return allCourts.filter((court) => {
+  //       return !courtBookingsOnDate.some((boooking) => {
+  //         return (
+  //           boooking.dataValues.courtId === court.dataValues.id &&
+  //           boooking.dataValues.date === date
+  //         );
+  //       });
+  //     });
+  //   } catch (error) {
+  //     return undefined;
+  //   }
+  // };
 
   private static availableBookingsCourtsByDate = async (
     date: string,

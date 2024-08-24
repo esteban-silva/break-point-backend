@@ -22,7 +22,7 @@ app.disabled("x-powered-by");
 // Middleware used to have access to req.body as JSON
 app.use(express.json());
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: process.env.URL_FRONTEND || "http://localhost:5173",
   credentials: true,
   optionSuccessStatus: 200,
 };

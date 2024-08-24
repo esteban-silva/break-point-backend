@@ -1,6 +1,7 @@
 import { sequelize } from "../database/db.connection";
 import { DataTypes, ModelDefined, Optional } from "sequelize";
 import { ScheduleClasses } from "./scheduleClassScheme";
+import { Bookings } from "./bookingScheme";
 
 export interface IUser {
   id: number;
@@ -74,3 +75,9 @@ export const Users: ModelDefined<IUser, UserType> = sequelize.define(
     },
   }
 );
+
+Users.hasMany(Bookings, {
+  as: "bookingUser",
+  foreignKey: "userId",
+});
+Bookings.belongsTo(Users);

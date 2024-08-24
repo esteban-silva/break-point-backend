@@ -1,6 +1,8 @@
-import { AvailableDays } from "../schemes/availableDayScheme";
 import { Courts } from "../schemes/courtScheme";
-import { ScheduleClasses, ScheduleClassType } from "../schemes/scheduleClassScheme";
+import {
+  ScheduleClasses,
+  ScheduleClassType,
+} from "../schemes/scheduleClassScheme";
 
 export default class ScheduleClassModel {
   static getById = async (id: number) => {
@@ -16,19 +18,15 @@ export default class ScheduleClassModel {
           required: true,
           attributes: ["id", "name"],
         },
-        {
-          model: AvailableDays,
-          required: true,
-          attributes: ["id", "weekday", "startHour", "endHour"],
-        },
       ],
     });
     return allScheduleClassses;
   };
 
   static createScheduleClass = async (scheduleClass: ScheduleClassType) => {
-    const newScheduleClass = await ScheduleClasses.create(scheduleClass);
-    return newScheduleClass.dataValues;
+    const newScheduleClass = {...scheduleClass, startHour: (scheduleClass.startHour)}
+
+    return (await ScheduleClasses.create(scheduleClass)).dataValues;
   };
 
   static deleteScheduleClass = async (id: number) => {

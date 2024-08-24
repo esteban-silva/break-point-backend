@@ -2,14 +2,16 @@ import { sequelize } from "../database/db.connection";
 import { DataTypes, ModelDefined, Optional } from "sequelize";
 import { Users } from "./userScheme";
 import { Courts } from "./courtScheme";
-import { AvailableDays } from "./availableDayScheme";
 
 export interface IScheduleClass {
   id: number;
   maxCapacity: number;
-  classLavel: string;
+  level: ClassLevel;
+  dayOfWeek: number;
+  duration: number;
+  startHour: string;
   courtId: number;
-  availableDayId: number;
+  userId: number;
 }
 
 export enum ClassLevel {
@@ -31,7 +33,7 @@ const atributes = {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  classLevel: {
+  level: {
     type: DataTypes.ENUM(
       ClassLevel.beginner,
       ClassLevel.intermediate,
@@ -39,11 +41,37 @@ const atributes = {
     ),
     allowNull: false,
   },
+  dayOfWeek: {
+    type: DataTypes.INTEGER,
+    max: 6,
+    min: 0,
+    allowNull: false,
+  },
+  duration: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  startHour: {
+    type: DataTypes.TIME,
+    allowNull: false,
+    timezone: false,
+    formatDataType: "time",
+  },
 };
 
 export const ScheduleClasses: ModelDefined<IScheduleClass, ScheduleClassType> =
   sequelize.define("scheduleClass", atributes, {
     freezeTableName: true,
+
+    getterMethods: {
+      modifiedStartHourTime() {
+        console.log(
+          "valor de startHour ahora: ",
+          this.getDataValue("startHour").split(" ")[0]
+        );
+        return this.getDataValue("startHour").split(" ")[0];
+      },
+    },
   });
 
 ScheduleClasses.hasMany(Users, {

@@ -157,6 +157,30 @@ export default class UserModel {
     }
   };
 
+  static getCurrentUser = async ({
+    id,
+  }: {
+    id: number;
+  }): Promise<IApiResponse> => {
+    console.warn("id DEL USER LOGUEADO", id);
+    try {
+      const user = await Users.findByPk(id);
+      if (user) {
+        const userWithoutPassword: Partial<IUser> = { ...user.dataValues };
+        delete userWithoutPassword["password"];
+        return {
+          message: "User retrieved successfuly",
+          status: 200,
+          data: userWithoutPassword,
+        };
+      } else {
+        return { message: "User not found", status: 400, data: null };
+      }
+    } catch (error) {
+      return { message: "Error retrieving user", status: 500, data: error };
+    }
+  };
+
   //Login
   static login = async (
     email: string,
@@ -172,11 +196,13 @@ export default class UserModel {
           user.dataValues.password
         );
         if (isMatch) {
-          const accessToken = this.createJwtToken(user.dataValues);
+          const userWithoutPassword: Partial<IUser> = { ...user.dataValues };
+          delete userWithoutPassword["password"];
+          const accessToken = this.createJwtToken(userWithoutPassword);
           return {
             message: "Login successfuly",
             status: 200,
-            data: accessToken,
+            data: { user: userWithoutPassword, authToken: accessToken },
           };
         } else {
           return { message: "Invalid credentials", status: 401, data: null };
@@ -189,9 +215,9 @@ export default class UserModel {
     }
   };
 
-  static createJwtToken = (user: UserType) => {
+  static createJwtToken = (user: Partial<IUser>) => {
     return jwt.sign(user, process.env.JWT_SECRET as string, {
-      expiresIn: "2h",
+      expiresIn: "1h",
     });
   };
 }

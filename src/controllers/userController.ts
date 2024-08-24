@@ -49,9 +49,32 @@ export class UserController {
     return res.status(response.status).json(response);
   };
 
+  getCurrentUser = async (req: Request, res: Response) => {
+    console.warn("authToken en Controller", req.user);
+    const response: IApiResponse = await this.userModel.getCurrentUser({
+      id: req.user.id,
+    });
+    return res.status(response.status).json(response);
+  };
+
   login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const response = await this.userModel.login(email, password);
-    return res.status(response.status).json(response);
+    if (response.status !== 200)
+      return res.status(response.status).json(response);
+    return res
+      .status(response.status)
+      .cookie("authToken", response.data.authToken, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60,
+      }) //1hora
+      .json({ ...response, data: response.data.user });
+  };
+
+  logout = async (req: Request, res: Response) => {
+    res
+      .status(200)
+      .clearCookie("authToken")
+      .json({ data: null, status: 200, message: "Logout successfuly" });
   };
 }

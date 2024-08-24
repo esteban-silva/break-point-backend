@@ -8,7 +8,6 @@ export const createUserRouter = ({ userModel }: { userModel: UserModel }) => {
   const userController = new UserController({ userModel });
 
   userRouter.get("/", authenticationMiddleware, userController.getAll);
-  userRouter.get("/:id", authenticationMiddleware, userController.getById);
   userRouter.delete(
     "/:id",
     authenticationMiddleware,
@@ -20,7 +19,14 @@ export const createUserRouter = ({ userModel }: { userModel: UserModel }) => {
   userRouter.post("/signup", userController.createCommonUser);
   userRouter.post("/registerTeacher", userController.setUserTeacher);
   userRouter.post("/login", userController.login);
-  // userRouter.post("/logout", userController.logout);
+  userRouter.post("/logout", userController.logout);
+
+  userRouter.get(
+    "/current",
+    authenticationMiddleware,
+    userController.getCurrentUser
+  );
+  userRouter.get("/:id", authenticationMiddleware, userController.getById);
 
   return userRouter;
 };

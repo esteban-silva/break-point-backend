@@ -1,10 +1,17 @@
 import { sequelize } from "../database/db.connection";
 import { DataTypes, ModelDefined, Optional } from "sequelize";
 import { ScheduleClasses } from "./scheduleClassScheme";
+import { Bookings } from "./bookingScheme";
+
+enum CourtSurface {
+  HARD = "hard",
+  CLAY = "clay",
+}
 
 export interface ICourt {
   id: number;
   name: string;
+  surface: CourtSurface;
 }
 
 export type CourtType = ICourt;
@@ -18,6 +25,10 @@ const atributes = {
   },
   name: {
     type: DataTypes.STRING,
+    allowNull: false,
+  },
+  surface: {
+    type: DataTypes.ENUM(CourtSurface.CLAY, CourtSurface.HARD),
     allowNull: false,
   },
 };
@@ -35,3 +46,9 @@ Courts.hasMany(ScheduleClasses, {
   foreignKey: "courtId",
 });
 ScheduleClasses.belongsTo(Courts);
+
+Courts.hasMany(Bookings, {
+  as: "bookingCourt",
+  foreignKey: "courtId",
+});
+Bookings.belongsTo(Courts);

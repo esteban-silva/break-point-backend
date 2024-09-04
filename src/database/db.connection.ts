@@ -11,6 +11,13 @@ const productionOptions = {
   },
 };
 
+console.log(
+  "data?",
+  process.env.DATABASE_NAME,
+  process.env.DATABASE_USERNAME,
+  process.env.DATABASE_PASSWORD
+);
+
 export const sequelize = new Sequelize(
   process.env.DATABASE_NAME || "",
   process.env.DATABASE_USERNAME || "",
@@ -18,8 +25,7 @@ export const sequelize = new Sequelize(
   {
     host: process.env.DATABASE_HOST || "",
     dialect: "postgres",
-    dialectOptions:
-      process.env.NODE_ENV === "production" ? productionOptions: devOption,
+    dialectOptions: productionOptions,
     define: {
       timestamps: false,
     },

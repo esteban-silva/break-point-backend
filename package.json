@@ -20,6 +20,9 @@
     "url": "https://github.com/esteban-silva/break-point-backend/issues"
   },
   "homepage": "https://github.com/esteban-silva/break-point-backend#readme",
+  "engines": {
+    "node": "14.17.0"
+  },
   "dependencies": {
     "@sequelize/core": "*",
     "@types/bcryptjs": "^2.4.6",

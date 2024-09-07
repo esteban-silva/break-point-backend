@@ -25,7 +25,8 @@ export const sequelize = new Sequelize(
   {
     host: process.env.DATABASE_HOST || "",
     dialect: "postgres",
-    dialectOptions: productionOptions,
+    dialectOptions:
+      process.env.NODE_ENV === "production" ? productionOptions : devOption,
     define: {
       timestamps: false,
     },

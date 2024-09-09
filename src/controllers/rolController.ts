@@ -12,14 +12,18 @@ export class RolController {
   }
 
   getAll = async (req: Request, res: Response) => {
-    console.log(
-      "data?",
-      process.env.DATABASE_NAME,
-      process.env.DATABASE_USERNAME,
-      process.env.DATABASE_PASSWORD
-    );
-    const roles = await this.rolModel.getAll();
-    return res.status(200).json({ data: roles });
+    try {
+      console.log(
+        "data?",
+        process.env.DATABASE_NAME,
+        process.env.DATABASE_USERNAME,
+        process.env.DATABASE_PASSWORD
+      );
+      const roles = await this.rolModel.getAll();
+      return res.status(200).json({ data: roles });
+    } catch (error) {
+      console.log('error...', error);
+    }
   };
 
   getById = async (req: Request, res: Response) => {

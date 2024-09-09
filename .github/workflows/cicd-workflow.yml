@@ -15,7 +15,7 @@ jobs:
       - name: Build Docker image
         run: docker build -f Dockerfile.production -t esteban-silva/break-point-backend .
       - name: Publich image to Docker Hub
-        run: docker psuh esteban-silva/break-point-backend:latest
+        run: docker push esteban-silva/break-point-backend:latest
     env: # Or as an environment variable
       DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
       DATRABASE_PORT: ${{ secrets.DATABASE_PORT }}

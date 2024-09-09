@@ -22,7 +22,7 @@ jobs:
         run: echo ${{ vars.DATABASE_HOST }} ${{ vars.DATRABASE_PORT }} ${{ vars.DATABASE_NAME }} ${{ vars.DATABASE_USERNAME }} ${{ vars.DATABASE_PASSWORD }} ${{ vars.JWT_SECRET }} ${{ vars.URL_FRONTEND }} ${{ vars.PORT }}
     env: # Or as an environment variable
       DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
-      DATRABASE_PORT: ${{ secrets.DATABASE_PORT }}
+      DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
       DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
       DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
       DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
@@ -38,12 +38,8 @@ jobs:
         run: docker pull estebansilvac/break-point-backend:latest
       - name: Delete old container
         run: docker stop break-point-backend-container && docker remove break-point-backend-container && rm -rf break-point-backend-container
-      - name: Variables? 
-        run: echo "$DATABASE_HOST $DATRABASE_PORT $DATABASE_NAME $DATABASE_USERNAME $DATABASE_PASSWORD $JWT_SECRET $URL_FRONTEND $PORT"
-      - name: variables 2
-        run: echo ${{ vars.DATABASE_HOST }} ${{ vars.DATRABASE_PORT }} ${{ vars.DATABASE_NAME }} ${{ vars.DATABASE_USERNAME }} ${{ vars.DATABASE_PASSWORD }} ${{ vars.JWT_SECRET }} ${{ vars.URL_FRONTEND }} ${{ vars.PORT }}
       - name: Run new container
-        run: docker run -d -p 3001:3001 --name break-point-backend-container estebansilvac/break-point-backend
+        run: docker run -d -p 3001:3001 --name break-point-backend-container estebansilvac/break-point-backend -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} -e DATABASE_PORT=${{ secrets.DATABASE_PORT }} -e DATABASE_NAME=${{ secrets.DATABASE_NAME }} -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} -e JWT_SECRET=${{ secrets.JWT_SECRET }} -e URL_FRONTEND=${{ secrets.URL_FRONTEND }} -e PORT=${{ secrets.PORT }} 
     env: # Or as an environment variable
       DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
       DATRABASE_PORT: ${{ secrets.DATABASE_PORT }}

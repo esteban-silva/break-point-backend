@@ -34,4 +34,4 @@ jobs:
       - name: Delete old container
         run: docker rm -f break-point-backend-container
       - name: Run new container
-        run: docker run -d -p 80:80 --name break-point-backend-container estebansilvac/break-point-backend
+        run: docker run -d -p 3002:3002 --name break-point-backend-container estebansilvac/break-point-backend

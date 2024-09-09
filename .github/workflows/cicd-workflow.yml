@@ -11,11 +11,11 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
       - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} docker.io
       - name: Build Docker image
-        run: docker build -f Dockerfile.production -t esteban-silva/break-point-backend .
+        run: docker build -f Dockerfile.production -t estebansilvac/break-point-backend .
       - name: Publich image to Docker Hub
-        run: docker push esteban-silva/break-point-backend:latest
+        run: docker push estebansilvac/break-point-backend:latest
     env: # Or as an environment variable
       DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
       DATRABASE_PORT: ${{ secrets.DATABASE_PORT }}
@@ -30,8 +30,8 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Pull image from Docker Hub
-        run: docker pull esteban-silva/break-point-backend:latest
+        run: docker pull estebansilvac/break-point-backend:latest
       - name: Delete old container
         run: docker rm -f break-point-backend-container
       - name: Run new container
-        run: docker run -d -p 3001:80 --name break-point-backend-container esteban-silva/break-point-backend
+        run: docker run -d -p 3001:80 --name break-point-backend-container estebansilvac/break-point-backend

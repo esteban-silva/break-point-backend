@@ -39,13 +39,12 @@ jobs:
       - name: Delete old container
         run: docker stop break-point-backend-container && docker remove break-point-backend-container && rm -rf break-point-backend-container
       - name: Run new container
-        run: docker run -d -p 3001:3001 --name break-point-backend-container estebansilvac/break-point-backend -e DATABASE_HOST=${{ secrets.DATABASE_HOST }} -e DATABASE_PORT=${{ secrets.DATABASE_PORT }} -e DATABASE_NAME=${{ secrets.DATABASE_NAME }} -e DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} -e DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} -e JWT_SECRET=${{ secrets.JWT_SECRET }} -e URL_FRONTEND=${{ secrets.URL_FRONTEND }} -e PORT=${{ secrets.PORT }} 
-    env: # Or as an environment variable
-      DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
-      DATRABASE_PORT: ${{ secrets.DATABASE_PORT }}
-      DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
-      DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
-      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-      JWT_SECRET: ${{ secrets.JWT_SECRET }}
-      URL_FRONTEND: ${{ secrets.URL_FRONTEND }}
-      PORT: ${{ secrets.PORT }}
+        run: docker run -d -p 3001:3001 -e DATRABASE_PORT=$DATRABASE_PORT \
+            -e DATABASE_HOST=$DATABASE_HOST \
+            -e DATABASE_USERNAME=$DATABASE_USERNAME \
+            -e DATABASE_NAME=$DATABASE_NAME \
+            -e DATABASE_PASSWORD=$DATABASE_PASSWORD \
+            -e JWT_SECRET=$JWT_SECRET \
+            -e URL_FRONTEND=$URL_FRONTEND \
+            -e PORT=$PORT \
+            --name break-point-backend-container estebansilvac/break-point-backend

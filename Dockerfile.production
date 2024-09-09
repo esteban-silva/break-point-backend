@@ -1,15 +1,17 @@
 FROM node:14
 
-WORKDIR /usr/src/app
+RUN npm install -g ts-node 
+
+WORKDIR /app
 
 COPY package*.json ./
 
 COPY . .
 
-RUN npm install -g ts-node 
+RUN npm install
 
 ENV NODE_ENV=production
 
-EXPOSE 80
+EXPOSE 3001
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "start" ]

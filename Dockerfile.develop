@@ -2,7 +2,7 @@ FROM node:14
 
 RUN npm install -g ts-node 
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
 
@@ -14,4 +14,4 @@ ENV NODE_ENV=development
 
 EXPOSE 3001
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "start" ]

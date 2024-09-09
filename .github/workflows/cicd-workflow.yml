@@ -44,3 +44,12 @@ jobs:
         run: echo ${{ vars.DATABASE_HOST }} ${{ vars.DATRABASE_PORT }} ${{ vars.DATABASE_NAME }} ${{ vars.DATABASE_USERNAME }} ${{ vars.DATABASE_PASSWORD }} ${{ vars.JWT_SECRET }} ${{ vars.URL_FRONTEND }} ${{ vars.PORT }}
       - name: Run new container
         run: docker run -d -p 3001:3001 --name break-point-backend-container estebansilvac/break-point-backend
+    env: # Or as an environment variable
+      DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+      DATRABASE_PORT: ${{ secrets.DATABASE_PORT }}
+      DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+      DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      URL_FRONTEND: ${{ secrets.URL_FRONTEND }}
+      PORT: ${{ secrets.PORT }}

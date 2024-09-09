@@ -46,7 +46,7 @@ app.use("/booking", createBookingRouter({ bookingModel: BookingModel }));
 
 const PORT = process.env.PORT
 
-app.listen(3002, () => {
+app.listen(PORT, () => {
   console.log(`server listening on http://localhost:${PORT}`);
 });
 

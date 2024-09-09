@@ -16,6 +16,10 @@ jobs:
         run: docker build -f Dockerfile.production -t estebansilvac/break-point-backend .
       - name: Publich image to Docker Hub
         run: docker push estebansilvac/break-point-backend:latest
+      - name: Variables? 
+        run: echo "$DATABASE_HOST $DATRABASE_PORT $DATABASE_NAME $DATABASE_USERNAME $DATABASE_PASSWORD $JWT_SECRET $URL_FRONTEND $PORT"
+      - name: variables 2
+        run: echo ${{ vars.DATABASE_HOST }} ${{ vars.DATRABASE_PORT }} ${{ vars.DATABASE_NAME }} ${{ vars.DATABASE_USERNAME }} ${{ vars.DATABASE_PASSWORD }} ${{ vars.JWT_SECRET }} ${{ vars.URL_FRONTEND }} ${{ vars.PORT }}
     env: # Or as an environment variable
       DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
       DATRABASE_PORT: ${{ secrets.DATABASE_PORT }}
@@ -35,6 +39,8 @@ jobs:
       - name: Delete old container
         run: docker rm -f break-point-backend-container
       - name: Variables? 
-        run: echo $DATABASE_HOST $DATRABASE_PORT $DATABASE_NAME $DATABASE_USERNAME $DATABASE_PASSWORD $JWT_SECRET $URL_FRONTEND $PORT
+        run: echo "$DATABASE_HOST $DATRABASE_PORT $DATABASE_NAME $DATABASE_USERNAME $DATABASE_PASSWORD $JWT_SECRET $URL_FRONTEND $PORT"
+      - name: variables 2
+        run: echo ${{ vars.DATABASE_HOST }} ${{ vars.DATRABASE_PORT }} ${{ vars.DATABASE_NAME }} ${{ vars.DATABASE_USERNAME }} ${{ vars.DATABASE_PASSWORD }} ${{ vars.JWT_SECRET }} ${{ vars.URL_FRONTEND }} ${{ vars.PORT }}
       - name: Run new container
         run: docker run -d -p 3001:3001 --name break-point-backend-container estebansilvac/break-point-backend

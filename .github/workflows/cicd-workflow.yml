@@ -36,8 +36,8 @@ jobs:
     steps:
       - name: Pull image from Docker Hub
         run: docker pull estebansilvac/break-point-backend:latest
-      # - name: Delete old container
-      #   run: docker rmi $(docker images -a -q)
+      - name: Delete old container
+        run: rm -rf break-point-backend-container
       - name: Variables? 
         run: echo "$DATABASE_HOST $DATRABASE_PORT $DATABASE_NAME $DATABASE_USERNAME $DATABASE_PASSWORD $JWT_SECRET $URL_FRONTEND $PORT"
       - name: variables 2

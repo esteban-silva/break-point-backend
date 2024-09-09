@@ -13,7 +13,7 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker image
-        run: docker build -t esteban-silva/break-point-backend .
+        run: docker build -f Dockerfile.production -t esteban-silva/break-point-backend .
       - name: Publich image to Docker Hub
         run: docker publish esteban-silva/break-point-backend:latest
     env: # Or as an environment variable

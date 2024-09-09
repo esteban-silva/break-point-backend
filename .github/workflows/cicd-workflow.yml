@@ -13,7 +13,7 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} docker.io
       - name: Build Docker image
-        run: docker build -f Dockerfile.production estebansilvac/break-point-backend .
+        run: docker build -f Dockerfile.production -t estebansilvac/break-point-backend .      
       - name: Publich image to Docker Hub
         run: docker push estebansilvac/break-point-backend:latest
       - name: Variables? 

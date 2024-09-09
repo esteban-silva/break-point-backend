@@ -24,6 +24,7 @@ jobs:
       DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
       URL_FRONTEND: ${{ secrets.URL_FRONTEND }}
+      PORT: ${{ secrets.PORT }}
 
   deploy:
     needs: build

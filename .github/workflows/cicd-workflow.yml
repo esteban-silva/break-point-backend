@@ -34,5 +34,7 @@ jobs:
         run: docker pull estebansilvac/break-point-backend:latest
       - name: Delete old container
         run: docker rm -f break-point-backend-container
+      - name: Variables? 
+        run: echo ${{ secrets.DATABASE_HOST }} $DATABASE_PORT ${{ secrets.DATABASE_NAME }} ${{ secrets.DATABASE_USERNAME }} ${{ secrets.DATABASE_PASSWORD }} ${{ secrets.JWT_SECRET }} ${{ secrets.URL_FRONTEND }} ${{ secrets.PORT }} 
       - name: Run new container
         run: docker run -d -p 3001:3001 --name break-point-backend-container estebansilvac/break-point-backend

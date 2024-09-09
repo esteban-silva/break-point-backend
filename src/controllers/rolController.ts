@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { UserType, UserPartialType } from "../schemes/userScheme";
 import rolModel from "../models/rolModel";
 import { RolType } from "../schemes/rolScheme";
+import dotenv from "dotenv";
+dotenv.config();
 
 export class RolController {
   rolModel: any;
@@ -10,6 +12,12 @@ export class RolController {
   }
 
   getAll = async (req: Request, res: Response) => {
+    console.log(
+      "data?",
+      process.env.DATABASE_NAME,
+      process.env.DATABASE_USERNAME,
+      process.env.DATABASE_PASSWORD
+    );
     const roles = await this.rolModel.getAll();
     return res.status(200).json({ data: roles });
   };

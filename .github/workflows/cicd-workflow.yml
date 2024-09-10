@@ -26,6 +26,6 @@ jobs:
       - name: Pull image from Docker Hub
         run: docker pull estebansilvac/break-point-backend:latest
       - name: Delete old container
-        run: docker rm -rf break-point-backend-container
+        run: rm -rf break-point-backend-container
       - name: Run new container
         run: docker run -d -p 3001:3001 --name break-point-backend-container estebansilvac/break-point-backend

@@ -21,9 +21,11 @@ jobs:
     needs: build
     runs-on: self-hosted
     steps:
+      - name: Delete all unused images
+        run: docker system prune -f
       - name: Pull image from Docker Hub
         run: docker pull estebansilvac/break-point-backend:latest
       - name: Delete old container
-        run: docker stop break-point-backend-container && docker remove break-point-backend-container && rm -rf break-point-backend-container
+        run: docker rm -rf break-point-backend-container
       - name: Run new container
         run: docker run -d -p 3001:3001 --name break-point-backend-container estebansilvac/break-point-backend

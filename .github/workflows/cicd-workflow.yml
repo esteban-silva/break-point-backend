@@ -13,7 +13,7 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} docker.io
       - name: Build Docker image
-        run: docker build -f Dockerfile.production -t estebansilvac/break-point-backend --build-arg DATABASE_HOST=${{ secrets.DATABASE_HOST }} --build-arg DATABASE_NAME=${{ secrets.DATABASE_NAME }} .
+        run: docker build -f Dockerfile.production -t estebansilvac/break-point-backend --build-arg DATABASE_HOST=${{ secrets.DATABASE_HOST }} --build-arg DATRABASE_PORT=${{ secrets.DATRABASE_PORT }} --build-arg DATABASE_NAME=${{ secrets.DATABASE_NAME }} --build-arg DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} --build-arg URL_FRONTEND=${{ secrets.URL_FRONTEND }} --build-arg PORT=${{ secrets.PORT }} .
       - name: Publich image to Docker Hub
         run: docker push estebansilvac/break-point-backend:latest
 

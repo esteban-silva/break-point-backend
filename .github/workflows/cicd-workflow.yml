@@ -13,7 +13,7 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} docker.io
       - name: Build Docker image
-        run: docker build -f Dockerfile.production -t estebansilvac/break-point-backend --build-arg DATABASE_HOST=${{ secrets.DATABASE_HOST }} --build-arg DATRABASE_PORT=${{ secrets.DATRABASE_PORT }} --build-arg DATABASE_NAME=${{ secrets.DATABASE_NAME }} --build-arg DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} --build-arg URL_FRONTEND=${{ secrets.URL_FRONTEND }} --build-arg PORT=${{ secrets.PORT }} .
+        run: docker build -f Dockerfile.production -t estebansilvac/break-point-backend --build-arg DATABASE_HOST=${{ secrets.DATABASE_HOST }} --build-arg DATABASE_PORT=${{ secrets.DATABASE_PORT }} --build-arg DATABASE_NAME=${{ secrets.DATABASE_NAME }} --build-arg DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} --build-arg URL_FRONTEND=${{ secrets.URL_FRONTEND }} --build-arg PORT=${{ secrets.PORT }} .
       - name: Publich image to Docker Hub
         run: docker push estebansilvac/break-point-backend:latest
 
@@ -25,7 +25,11 @@ jobs:
         run: docker system prune -f
       - name: Pull image from Docker Hub
         run: docker pull estebansilvac/break-point-backend:latest
-      - name: Delete old container
-        run: rm -rf break-point-backend-container
+      - name: Stop old container if its running
+        run: docker stop $(docker ps -a -q) || true
+      - name: Remove old container if exists
+        run: docker remove $(docker ps -a -q) || true
+      - name: Clean up dangling images
+        run: rm -rf break-point-backend
       - name: Run new container
         run: docker run -d -p 3001:3001 --name break-point-backend-container estebansilvac/break-point-backend
